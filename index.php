@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+require("ayar.php");
 require('settings.php');
 $date = new Datetime();
 $timestamp = $date->format('U');
@@ -17,6 +18,18 @@ if($_POST['send_contact']) {
 		$success = 1;
 	} else {
 		$success = 2;
+	}
+}
+$link = $_GET['link'];
+
+if($_GET && $link) {
+	$link = "SELECT * FROM short_link WHERE short_key='$link'";
+	$link_result = $baglan->query($link);
+	$link_sql = $link_result->fetch_assoc();
+	if($link_sql!=null) {
+		header("Location: ".$link_sql['link']);
+	} else {
+		header("Location: /");
 	}
 }
 
